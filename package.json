@@ -1,0 +1,18 @@
+{
+  "name": "chatapp",
+  "version": "1.0.0",
+  "description": "chat app",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ankit",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.3",
+    "mongoose": "^8.3.2",
+    "nodemon": "^3.1.0",
+    "socket.io": "^4.7.4"
+  }
+}

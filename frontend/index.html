@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #chatField{
+            display: none;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.2/socket.io.js" integrity="sha512-VJ6+sp2E5rFQk05caiXXzQd1wBABpjEj1r5kMiLmGAAgwPItw1YpqsCCBtq8Yr1x6C49/mTpRdXtq8O2RcZhlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1 class="header" >Chat App</h1>
+    <div>
+        <ul id="ChatList">
+        </ul>
+
+    </div>
+    <!-- //sending message -->
+    <div  id="chatField">
+        <input id="msg" placeholder="Enter your message" />
+        <button onclick="sendMessage()" >Send</button>
+    </div>
+    <!-- enter name  -->
+    <div id="nameField">
+        
+        <input id="name" placeholder="Enter your name" />
+        <button class="btn"  onclick="getName()" >Submit</button>
+    </div>
+    <script>
+        var flag = 1;
+        var socket = io();
+        var nm;
+        var chatList = document.getElementById('ChatList');
+        socket.on('sToc',(data)=>{
+            var li = document.createElement('li');
+            li.innerText=data.nm + " : "+ data.ms;
+            chatList.appendChild(li);
+        })
+        sendMessage=()=>{
+            var msg = document.getElementById('msg').value;
+            socket.emit('message', msg );
+            document.getElementById('msg').value = '';
+        }
+        getName=()=>{
+            var name = document.getElementById('name').value;
+            
+            nm = name
+            socket.emit('getName', name);
+                socket.on('getprev',(data)=>{
+                if(flag==1){
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        var li = document.createElement('li');
+                        li.innerText=element.name +  " : " + element.message;
+                        chatList.appendChild(li);
+                    }
+                    flag++;
+                }
+            })
+            valid=true;
+            document.getElementById('nameField').style.display = 'none';
+            document.getElementById('chatField').style.display = 'block';
+        }
+        
+    </script>
+</body>
+</html>
